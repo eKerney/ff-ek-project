@@ -1,11 +1,20 @@
+import AirPortCard from "./AirportCard"
+
 export const LeftPanel = () => {
   return (
-    <div id="LeftPanel" className="justify-left pb-4">
-      <div className="border-b-[1.5px] border-dark-grey-300" ></div>
-      <div className="border-b-[1.5px] border-dark-grey-300"></div>
-      <div className="border-b-[1.5px] border-dark-grey-300"></div>
-      <div>
-      </div>
+    <div id="LeftPanel" className="h-screen grid grid-rows-12 justify-left border-1 border-dark-grey-300 bg-elevation-0">
+      <AirPortCard
+        styleProps="row-span-4 border-2 border-dark-grey-300 bg-elevation-0"
+        coords={[]}
+      />
+      <AirPortCard
+        styleProps="row-span-4 border-2 border-dark-grey-300 bg-elevation-0"
+        coords={[]}
+      />
+      <AirPortCard
+        styleProps="row-span-4 border-2 border-dark-grey-300 bg-elevation-0"
+        coords={[]}
+      />
     </div>
   )
 }
