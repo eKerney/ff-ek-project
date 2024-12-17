@@ -4,7 +4,7 @@ export const DeckMap = () => {
   return (
     <Map
       initialViewState={{
-        longitude: -100.4,
+        longitude: -90.0,
         latitude: 37.8,
         zoom: 4
       }}
