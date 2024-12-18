@@ -17,6 +17,7 @@ export const GenericSelect = <TChoice extends number | string | undefined>(
       : event.target.value as TChoice);
     setSelected(event.target.value as TChoice);
   }
+  useEffect(() => console.log('select', selected), [selected]);
 
   return (
     <div className=" pl-3 pb-2 absolute top-6 inset-x-auto z-50">

@@ -1,6 +1,10 @@
 import AirPortCard from "./AirportCard"
 
-export const LeftPanel = () => {
+export const LeftPanel = ({ selectedAirport }:
+  { selectedAirport: string }
+) => {
+  // useFetch(selectedAirport);
+
   return (
     <div id="LeftPanel" className="h-screen grid grid-rows-12 justify-left border-1 border-dark-grey-300 bg-elevation-0">
       <AirPortCard
