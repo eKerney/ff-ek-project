@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 export const BaseLayout = () => {
   const [selectedAirport, setSelectedAirport] = useState<string>('')
   const IDs: string[] = airportList.map(d => d.code);
-  useEffect(() => console.log('baselayout', selectedAirport), [selectedAirport]);
+  // useEffect(() => console.log('baselayout', selectedAirport), [selectedAirport]);
 
   return (
     <>

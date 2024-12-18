@@ -1,9 +1,11 @@
-import AirPortCard from "./AirportCard"
+import { useFetch } from "../hooks/useFetch";
+import { RequestConfig } from "../types";
+import AirPortCard from "./AirportCard";
 
 export const LeftPanel = ({ selectedAirport }:
   { selectedAirport: string }
 ) => {
-  // useFetch(selectedAirport);
+  useFetch(selectedAirport, "AIRPORT_INFO", {} as RequestConfig);
 
   return (
     <div id="LeftPanel" className="h-screen grid grid-rows-12 justify-left border-1 border-dark-grey-300 bg-elevation-0">
