@@ -1,42 +1,36 @@
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { FetchTypes, RequestConfig } from "../types";
+import axios from "axios";
+import { config } from "maplibre-gl";
 
 export const useFetch = (
   selectedAirport: string,
   fetchType: FetchTypes,
   requestConfig: RequestConfig,
+  setData: Dispatch<SetStateAction<any>>,
 ) => {
 
-  const config = {
-    url: (requestConfig.url + selectedAirport),
-    headers: {
-      'x-api-key': 'f15b282e5bd6495eae4cafe2d42b72e5',
-      'Authorization': `Bearer ${portalState.token}`,
-      'Content-Type': 'application/json'
-    }
-  };
-
-  //   const makeRequest = (portalState: PortalContextInterface, requestData: any) => {
-  //   portalState.token && requestData &&
-  //   axios.request(config)
-  //     .then((response) => {
-  //       console.log('get fetch!', response.data);
-  //       setData(response.data);
-  //     })
-  //       .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
-
-
+  const makeRequest = (config: RequestConfig) => {
+    console.log(config);
+    axios.request(config)
+      .then((response) => {
+        console.log('get fetch!', response.data);
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   useEffect(() => {
     switch (fetchType) {
       case "AIRPORT_INFO":
         console.log(selectedAirport ? selectedAirport : 'no airport selected');
+        selectedAirport && makeRequest(requestConfig);
         break;
       case "AIRPORT_WEATHER":
         console.log(selectedAirport ? selectedAirport : 'no weather selected');
+        selectedAirport && makeRequest(requestConfig);
         break;
       default:
         console.error('INVALID FETCHTYPE', fetchType)

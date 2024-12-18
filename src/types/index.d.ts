@@ -4,14 +4,14 @@
 
 export interface Headers {
   "ff-coding-exercise": string,
-  "Content-Type": "application/json",
-  username?: string,
-  password?: string,
+  Authorization?: string,
 };
 
 export interface RequestConfig {
+  method: 'get',
+  maxBodyLength: number,
   url: string,
-  header: Headers,
+  headers: Headers,
 }
 
 export type FetchTypes = "AIRPORT_INFO" | "AIRPORT_WEATHER";
