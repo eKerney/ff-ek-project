@@ -14,6 +14,13 @@ export interface RequestConfig {
   headers: Headers,
 }
 
+export interface AirportData {
+  id: string,
+  name: string,
+  runways: string[],
+  coords: number[],
+}
+
 export type FetchTypes = "AIRPORT_INFO" | "AIRPORT_WEATHER";
 
 

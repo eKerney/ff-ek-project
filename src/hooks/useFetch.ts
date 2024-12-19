@@ -1,26 +1,31 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { FetchTypes, RequestConfig } from "../types";
 import axios from "axios";
-import { config } from "maplibre-gl";
 
 export const useFetch = (
   selectedAirport: string,
   fetchType: FetchTypes,
   requestConfig: RequestConfig,
-  setData: Dispatch<SetStateAction<any>>,
 ) => {
+  const [data, setData] = useState({});
 
   const makeRequest = (config: RequestConfig) => {
-    console.log(config);
     axios.request(config)
       .then((response) => {
-        console.log('get fetch!', response.data);
+        // console.log('get fetch!', response.data);
         setData(response.data);
       })
       .catch((error) => {
+        setData({
+          id: '...',
+          name: 'AIRPORT NOT FOUND',
+          runways: [],
+          coords: [0, 0]
+        });
         console.log(error);
       });
   }
+  useEffect(() => console.log(data), [data]);
 
   useEffect(() => {
     switch (fetchType) {
@@ -36,5 +41,7 @@ export const useFetch = (
         console.error('INVALID FETCHTYPE', fetchType)
     }
   }, [selectedAirport, fetchType]);
+
+  return data;
 
 }
