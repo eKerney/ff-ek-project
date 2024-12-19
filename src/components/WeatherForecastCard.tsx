@@ -1,8 +1,8 @@
 import airportIcon from "../assets/airport.png";
-import { CloudCover, CurrentWeather } from "../types";
+import { ForeCastWeather } from "../types";
 
-export const WeatherCard = ({ styleProps, weather }:
-  { styleProps: string, weather: CurrentWeather }) => {
+export const WeatherForecastCard = ({ styleProps, forecast }:
+  { styleProps: string, forecast: ForeCastWeather[] }) => {
 
   return (
     <div className={`stats shadow ${styleProps}`}>
@@ -12,26 +12,34 @@ export const WeatherCard = ({ styleProps, weather }:
             <img src={airportIcon} />
           </div>
         </div>
-        <div className="stat-value text-2xl">Current Weather</div>
-        <div className="stat-title text-lg">
-          Temperature(F): <b>{weather.temperatureF}&nbsp;&nbsp;</b>
-          Relative Humidity: <b>{weather.relHumid}%&nbsp;&nbsp;</b>
-          Vis(StMi): <b>{weather.visibilStMi}</b>
-        </div>
-        <div className="stat-title text-lg">
-          Wind Speed (mph): <b>{weather.windSpeedMPH.toFixed(1)}&nbsp;&nbsp;</b>
-          Wind Direction: <b>{weather.windDir}</b>
-        </div>
+        <div className="stat-value text-2xl">Forecast Report</div>
         <div className="stat-desc text-secondary text-lg text-center">
-          Cloud Coverage Summary&nbsp;
-          {weather.cloudCoverSum.length > 0 &&
+          {
+            weather.length
+          }
+
+          {/* weather.cloudCoverSum.length > 0 &&
             weather.cloudCoverSum.map((d: CloudCover, i) =>
-              <p>Layer {i + 1}: <b>{d.coverage}</b>&nbsp;&nbsp; <b>{d.altitudeFt}</b>ft&nbsp;&nbsp; ceiling: <b>{String(d.ceiling)}</b></p>)}
+              <p>Layer {i + 1}: <b>{d.coverage}</b>&nbsp;&nbsp; <b>{d.altitudeFt}</b>ft&nbsp;&nbsp; ceiling: <b>{String(d.ceiling)}</b></p>) */}
         </div>
       </div>
     </div>
   )
 }
 
-export default WeatherCard
-
+export default WeatherForecastCard
+// <div className="stat-title text-lg">
+//   Temperature(F): <b>{weather.temperatureF}&nbsp;&nbsp;</b>
+//   Relative Humidity: <b>{weather.relHumid}%&nbsp;&nbsp;</b>
+//   Vis(StMi): <b>{weather.visibilStMi}</b>
+// </div>
+// <div className="stat-title text-lg">
+//   Wind Speed (mph): <b>{weather.windSpeedMPH.toFixed(1)}&nbsp;&nbsp;</b>
+//   Wind Direction: <b>{weather.windDir}</b>
+// </div>
+// <div className="stat-desc text-secondary text-lg text-center">
+//   Cloud Coverage Summary&nbsp;
+//   {weather.cloudCoverSum.length > 0 &&
+//     weather.cloudCoverSum.map((d: CloudCover, i) =>
+//       <p>Layer {i + 1}: <b>{d.coverage}</b>&nbsp;&nbsp; <b>{d.altitudeFt}</b>ft&nbsp;&nbsp; ceiling: <b>{String(d.ceiling)}</b></p>)}
+// </div>

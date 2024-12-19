@@ -12,20 +12,20 @@ export interface RequestConfig {
   maxBodyLength: number,
   url: string,
   headers: Headers,
-}
+};
 
 export interface AirportData {
   id: string,
   name: string,
   runways: string[],
   coords: number[],
-}
+};
 
 export interface CloudCover {
   coverage: string,
   altitudeFt: 4000,
   ceiling: true,
-}
+};
 
 export interface CurrentWeather {
   temperatureF: number,
@@ -34,21 +34,22 @@ export interface CurrentWeather {
   visibilStMi: number,
   windSpeedMPH: number,
   windDir: string | number,
-}
+};
 
 
 export interface ForeCastWeather {
-  timeOffset: string,
+  dateStart: number,
+  timeOffset: number,
   windSpeedMPH: number,
-  windDir: string | number,
-}
+  windDirDeg: numer,
+};
+
 export interface WeatherData {
   current: CurrentWeather
   forecast: ForeCastWeather[],
-}
+};
 
 
-
-export type FetchTypes = "AIRPORT_INFO" | "AIRPORT_WEATHER";
+export type FetchTypes = "AIRPORT_INFO" | "AIRPORT_WEATHER" | "AIRPORT_FORECAST";
 
 

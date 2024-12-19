@@ -1,5 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { AirportData, FetchTypes, WeatherData } from "../types";
+import { AirportData, FetchTypes, Forecast, ForeCastWeather, WeatherData } from "../types";
 
 export const useTransformData = (
   selectedAirport: string,
@@ -16,7 +15,7 @@ export const useTransformData = (
     }
     : {
       current: { temperatureF: 0, relHumid: '', cloudCoverSum: [], visibilStMi: 0, windSpeedMPH: 0, windDir: '' },
-      forecast: [{ timeOffset: '', windSpeedMPH: 0, windDir: '' }]
+      forecast: [{ dateStart: 0, timeOffset: 0, windSpeedMPH: 0, windDirDeg: 0 }]
     } as WeatherData;
 
   const getWindDirection = (wind: number): string => {
@@ -56,8 +55,8 @@ export const useTransformData = (
           coords: [res.latitude, res.longitude]
         }
       case "AIRPORT_WEATHER":
+        console.log('weather', res.report);
         const weather = res.report.conditions;
-        // console.log('weather', weather);
         const windSecCard = 'wind' in weather && 'direction' in weather.wind
           ? getWindDirection(Number(weather.wind.direction))
           : 'NO DATA';
@@ -71,10 +70,31 @@ export const useTransformData = (
             windSpeedMPH: (Number(weather.wind.speedKts) * 1.15078),
             windDir: windSecCard,
           },
-          forecast: [{ timeOffset: '', windSpeedMPH: 0, windDir: '' }]
+          forecast: [{ dateStart: 0, timeOffset: 0, windSpeedMPH: 0, windDirDeg: 0 }]
         };
+      case "AIRPORT_FORECAST":
+        console.log('AIRPORT_FORECAST')
+        const forecast = res.report.forecast;
+        const dateStartTxt = new Date(forecast.period.dateStart);
+        const dateStartNum = Date.parse(forecast.period.dateStart);
+        const conditions = forecast.conditions;
+        console.log(dateStartTxt, dateStartNum);
+
+        const forecasts: ForeCastWeather[] = conditions.map(d => {
+          const period: Forecast = {
+            dateStart: Date.parse(d.period.dateStart),
+            timeOffset: (Date.parse(d.period.dateStart) - dateStartNum) / (1000 * 60 * 60),
+            windSpeedMPH: (Number(d.wind.speedKts) * 1.15078),
+            windDirDeg: (d.wind.direction),
+          }
+          return period
+        });
+        return {
+          current: { temperatureF: 0, relHumid: '', cloudCoverSum: [], visibilStMi: 0, windSpeedMPH: 0, windDir: '' },
+          forecast: forecasts,
+        }
       default:
-        return {} as AirportData
+        return transformData as AirportData
     }
   }
 
@@ -86,6 +106,11 @@ export const useTransformData = (
       break;
     case "AIRPORT_WEATHER":
       transformData = 'report' in responseData && 'conditions' in responseData.report
+        ? parseData(responseData)
+        : transformData;
+      break;
+    case "AIRPORT_FORECAST":
+      transformData = 'report' in responseData && 'forecast' in responseData.report
         ? parseData(responseData)
         : transformData;
       break;

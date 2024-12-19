@@ -4,11 +4,13 @@ import { AirportData, CurrentWeather, ForeCastWeather, WeatherData } from "../ty
 import AirPortCard from "./AirportCard";
 import { useTransformData } from "../hooks/useTransformData";
 import WeatherCard from "./WeatherCard";
+import WeatherForecastCard from "./WeatherForecastCard";
 
 export const LeftPanel = ({ selectedAirport }:
   { selectedAirport: string }
 ) => {
 
+  // *** AIRPORT DATA WORKFLOW *** //
   let airportData: AirportData = {
     id: '...',
     name: 'NAME',
@@ -30,7 +32,8 @@ export const LeftPanel = ({ selectedAirport }:
     },
   );
 
-  let weatherData: WeatherData = {
+  // *** CURRENT WEATHER DATA WORKFLOW *** //
+  let currentWeatherData: WeatherData = {
     current: {} as CurrentWeather,
     forecast: [],
   }
@@ -48,11 +51,20 @@ export const LeftPanel = ({ selectedAirport }:
     },
   );
 
+  // *** FORECAST WEATHER DATA WORKFLOW *** //
+  let forecastWeatherData: WeatherData = {
+    current: {} as CurrentWeather,
+    forecast: [],
+  }
+  // No new fetch required, data availavailable in weatherResponse
+
   airportData = useTransformData(selectedAirport, "AIRPORT_INFO", airportResponse) as AirportData;
-  weatherData = useTransformData(selectedAirport, "AIRPORT_WEATHER", weatherResponse) as WeatherData;
-  // useEffect(() => console.log('airportResponse', airportResponse), [airportResponse])
+  currentWeatherData = useTransformData(selectedAirport, "AIRPORT_WEATHER", weatherResponse) as WeatherData;
+  forecastWeatherData = useTransformData(selectedAirport, "AIRPORT_FORECAST", weatherResponse) as WeatherData;
+
   // useEffect(() => console.log('weatherResponse', weatherResponse), [weatherResponse]);
-  useEffect(() => console.log('weatherdata', weatherData.current.cloudCoverSum), [weatherData]);
+  // useEffect(() => console.log('weatherdata', currentWeatherData.current.cloudCoverSum), [currentWeatherData]);
+  useEffect(() => console.log('forecastWeatherdata', forecastWeatherData.forecast), [forecastWeatherData]);
 
   return (
     <div id="LeftPanel" className="h-screen grid grid-rows-12 justify-left border-1 border-dark-grey-300 bg-elevation-0">
@@ -65,7 +77,11 @@ export const LeftPanel = ({ selectedAirport }:
       />
       <WeatherCard
         styleProps="row-span-4 border-2 rounded-none border-dark-grey-300 bg-elevation-0"
-        weather={weatherData.current}
+        weather={currentWeatherData.current}
+      />
+      <WeatherForecastCard
+        styleProps="row-span-4 border-2 rounded-none border-dark-grey-300 bg-elevation-0"
+        forecast={forecastWeatherData.forecast}
       />
     </div>
   )

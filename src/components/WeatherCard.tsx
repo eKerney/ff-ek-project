@@ -26,7 +26,7 @@ export const WeatherCard = ({ styleProps, weather }:
           Cloud Coverage Summary&nbsp;
           {weather.cloudCoverSum.length > 0 &&
             weather.cloudCoverSum.map((d: CloudCover, i) =>
-              <p>Layer {i + 1}: <b>{d.coverage}</b>&nbsp;&nbsp; <b>{d.altitudeFt}</b>ft&nbsp;&nbsp; ceiling: <b>{String(d.ceiling)}</b></p>)}
+              <p key={d.altitudeFt}>Layer {i + 1}: <b>{d.coverage}</b>&nbsp;&nbsp; <b>{d.altitudeFt}</b>ft&nbsp;&nbsp; ceiling: <b>{String(d.ceiling)}</b></p>)}
         </div>
       </div>
     </div>
