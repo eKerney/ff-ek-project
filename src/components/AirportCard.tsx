@@ -12,8 +12,15 @@ export const AirPortCard = ({ styleProps, ID, name, runways, coords }:
         </div>
         <div className="stat-value">{ID}</div>
         <div className="stat-title text-xl">{name}</div>
-        <div className="stat-desc text-secondary text-sm">{runways.map(d => ` ${d} `)}</div>
-        <div className="stat-desc text-secondary text-sm ">{coords.map((d => ` ${d} `))}</div>
+        <div className="stat-title text-secondary text-md">
+          Runways:&nbsp;&nbsp;
+          {runways.map(d => `${d} | `)}
+        </div>
+        <div className="stat-desc text-secondary text-lg ">
+          Lat/Long:&nbsp;&nbsp;
+          {coords.map(((d, i) =>
+            `${i == 0 ? '(' : ''} ${d.toFixed(7)}${i == 0 ? ',' : ''}${i == 1 ? ')' : ''} `))}
+        </div>
       </div>
     </div>
   )

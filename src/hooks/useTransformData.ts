@@ -15,7 +15,7 @@ export const useTransformData = (
       coords: [0, 0]
     }
     : {
-      current: { temperatureF: 0, relHumid: '', cloudCoverSum: '', visibilStMi: 0, windSpeedMPH: 0, windDir: '' },
+      current: { temperatureF: 0, relHumid: '', cloudCoverSum: [], visibilStMi: 0, windSpeedMPH: 0, windDir: '' },
       forecast: [{ timeOffset: '', windSpeedMPH: 0, windDir: '' }]
     } as WeatherData;
 
@@ -43,7 +43,6 @@ export const useTransformData = (
       (wind >= dir.min && wind < dir.max) ||
       (dir.min > dir.max && (wind >= dir.min || wind < dir.max))
     );
-    console.log('dir', direction);
     return direction ? direction.direction : "NO DATA";
   }
 
@@ -54,11 +53,11 @@ export const useTransformData = (
           id: res.faaCode,
           name: res.displayName,
           runways: res.runways?.map(d => d.ident),
-          coords: [Number(res.latitude).toFixed(7), (res.longitude).toFixed(7)]
+          coords: [res.latitude, res.longitude]
         }
       case "AIRPORT_WEATHER":
         const weather = res.report.conditions;
-        console.log('weather', weather);
+        // console.log('weather', weather);
         const windSecCard = 'wind' in weather && 'direction' in weather.wind
           ? getWindDirection(Number(weather.wind.direction))
           : 'NO DATA';
@@ -69,7 +68,7 @@ export const useTransformData = (
             relHumid: weather.relativeHumidity,
             cloudCoverSum: weather.cloudLayers,
             visibilStMi: weather.visibility.distanceSm,
-            windSpeedMPH: (Number(weather.wind.speedKts) * 1.15078).toFixed(2),
+            windSpeedMPH: (Number(weather.wind.speedKts) * 1.15078),
             windDir: windSecCard,
           },
           forecast: [{ timeOffset: '', windSpeedMPH: 0, windDir: '' }]

@@ -3,6 +3,7 @@ import { useFetch } from "../hooks/useFetch";
 import { AirportData, CurrentWeather, ForeCastWeather, WeatherData } from "../types";
 import AirPortCard from "./AirportCard";
 import { useTransformData } from "../hooks/useTransformData";
+import WeatherCard from "./WeatherCard";
 
 export const LeftPanel = ({ selectedAirport }:
   { selectedAirport: string }
@@ -51,16 +52,20 @@ export const LeftPanel = ({ selectedAirport }:
   weatherData = useTransformData(selectedAirport, "AIRPORT_WEATHER", weatherResponse) as WeatherData;
   // useEffect(() => console.log('airportResponse', airportResponse), [airportResponse])
   // useEffect(() => console.log('weatherResponse', weatherResponse), [weatherResponse]);
-  useEffect(() => console.log('weatherData', weatherData), [weatherData]);
+  useEffect(() => console.log('weatherdata', weatherData.current.cloudCoverSum), [weatherData]);
 
   return (
     <div id="LeftPanel" className="h-screen grid grid-rows-12 justify-left border-1 border-dark-grey-300 bg-elevation-0">
       <AirPortCard
-        styleProps="row-span-4 border-2 border-dark-grey-300 bg-elevation-0"
+        styleProps="row-span-4 border-2 rounded-none border-dark-grey-300 bg-elevation-0"
         coords={airportData.coords ?? []}
         name={airportData.name ?? ''}
         runways={airportData.runways ?? []}
         ID={airportData.id ?? ''}
+      />
+      <WeatherCard
+        styleProps="row-span-4 border-2 rounded-none border-dark-grey-300 bg-elevation-0"
+        weather={weatherData.current}
       />
     </div>
   )

@@ -21,14 +21,21 @@ export interface AirportData {
   coords: number[],
 }
 
+export interface CloudCover {
+  coverage: string,
+  altitudeFt: 4000,
+  ceiling: true,
+}
+
 export interface CurrentWeather {
   temperatureF: number,
   relHumid: string,
-  cloudCoverSum: string,
+  cloudCoverSum: CloudCover[],
   visibilStMi: number,
   windSpeedMPH: number,
   windDir: string | number,
 }
+
 
 export interface ForeCastWeather {
   timeOffset: string,
