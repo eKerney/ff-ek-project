@@ -13,14 +13,16 @@ export const WeatherForecastCard = ({ styleProps, forecast }:
           </div>
         </div>
         <div className="stat-value text-2xl">Forecast Report</div>
-        <div className="stat-desc text-secondary text-lg text-center">
+        <div className="stat-desc text-secondary text-sm text-center">
           {
-            weather.length
+            forecast.length > 0 &&
+            forecast.map((d: ForeCastWeather, i) =>
+              <p>{i + 1} - Time Offset: <b>{d.timeOffset}</b> hrs&nbsp;&nbsp;
+                Wind Spd (mph): <b>{d.windSpeedMPH.toFixed(1)}</b>&nbsp;&nbsp;
+                Wind Dir (deg true): <b>{d.windDirDeg}</b></p>
+            )
           }
 
-          {/* weather.cloudCoverSum.length > 0 &&
-            weather.cloudCoverSum.map((d: CloudCover, i) =>
-              <p>Layer {i + 1}: <b>{d.coverage}</b>&nbsp;&nbsp; <b>{d.altitudeFt}</b>ft&nbsp;&nbsp; ceiling: <b>{String(d.ceiling)}</b></p>) */}
         </div>
       </div>
     </div>
@@ -28,18 +30,3 @@ export const WeatherForecastCard = ({ styleProps, forecast }:
 }
 
 export default WeatherForecastCard
-// <div className="stat-title text-lg">
-//   Temperature(F): <b>{weather.temperatureF}&nbsp;&nbsp;</b>
-//   Relative Humidity: <b>{weather.relHumid}%&nbsp;&nbsp;</b>
-//   Vis(StMi): <b>{weather.visibilStMi}</b>
-// </div>
-// <div className="stat-title text-lg">
-//   Wind Speed (mph): <b>{weather.windSpeedMPH.toFixed(1)}&nbsp;&nbsp;</b>
-//   Wind Direction: <b>{weather.windDir}</b>
-// </div>
-// <div className="stat-desc text-secondary text-lg text-center">
-//   Cloud Coverage Summary&nbsp;
-//   {weather.cloudCoverSum.length > 0 &&
-//     weather.cloudCoverSum.map((d: CloudCover, i) =>
-//       <p>Layer {i + 1}: <b>{d.coverage}</b>&nbsp;&nbsp; <b>{d.altitudeFt}</b>ft&nbsp;&nbsp; ceiling: <b>{String(d.ceiling)}</b></p>)}
-// </div>
