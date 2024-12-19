@@ -12,7 +12,8 @@ export const BaseLayout = () => {
   return (
     <>
       <div className="grid grid-cols-12 gap-0 h-screen overflow-hidden ">
-        <div className="border-2 border-dark-grey-300 bg-elevation-0 col-span-4" >
+        <DeckMap />
+        <div className="border-2 border-dark-grey-300 bg-elevation-0 col-span-4 z-30 " >
           <LeftPanel
             selectedAirport={selectedAirport}
           />
@@ -25,9 +26,8 @@ export const BaseLayout = () => {
             callback={setSelectedAirport}
             value=""
           />
-          <DeckMap />
         </div>
-      </div>
+      </div >
     </>
   );
 }

@@ -49,6 +49,22 @@ export interface WeatherData {
   forecast: ForeCastWeather[],
 };
 
+export interface Airport {
+  code: string,
+  icao: string,
+  name: string,
+  latitude: number,
+  longitude: number,
+  elevation: number,
+  url: string | null,
+  time_zone: string,
+  city_code: string | null,
+  country: string,
+  city: string | null,
+  state: string | null,
+  county: string | null,
+  type: string | null,
+};
 
 export type FetchTypes = "AIRPORT_INFO" | "AIRPORT_WEATHER" | "AIRPORT_FORECAST";
 

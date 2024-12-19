@@ -5,7 +5,7 @@ export const AirPortCard = ({ styleProps, ID, name, runways, coords }:
   return (
     <div className={`stats shadow ${styleProps}`}>
       <div className="stat place-items-center">
-        <div className="stat-figure text-secondary absolute inset-x-96 inset-y-5">
+        <div className="stat-figure text-secondary absolute left-[400px] top-[30px]  ">
           <div className="w-14 rounded-full">
             <img src={airportIcon} />
           </div>
