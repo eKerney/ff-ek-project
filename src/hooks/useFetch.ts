@@ -25,16 +25,14 @@ export const useFetch = (
         console.log(error);
       });
   }
-  useEffect(() => console.log(data), [data]);
+  // useEffect(() => console.log(data), [data]);
 
   useEffect(() => {
     switch (fetchType) {
       case "AIRPORT_INFO":
-        console.log(selectedAirport ? selectedAirport : 'no airport selected');
         selectedAirport && makeRequest(requestConfig);
         break;
       case "AIRPORT_WEATHER":
-        console.log(selectedAirport ? selectedAirport : 'no weather selected');
         selectedAirport && makeRequest(requestConfig);
         break;
       default:

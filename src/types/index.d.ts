@@ -21,6 +21,27 @@ export interface AirportData {
   coords: number[],
 }
 
+export interface CurrentWeather {
+  temperatureF: number,
+  relHumid: string,
+  cloudCoverSum: string,
+  visibilStMi: number,
+  windSpeedMPH: number,
+  windDir: string | number,
+}
+
+export interface ForeCastWeather {
+  timeOffset: string,
+  windSpeedMPH: number,
+  windDir: string | number,
+}
+export interface WeatherData {
+  current: CurrentWeather
+  forecast: ForeCastWeather[],
+}
+
+
+
 export type FetchTypes = "AIRPORT_INFO" | "AIRPORT_WEATHER";
 
 
