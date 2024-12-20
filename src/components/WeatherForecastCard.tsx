@@ -12,12 +12,11 @@ export const WeatherForecastCard = ({ styleProps, forecast }:
           {
             forecast.length > 0 &&
             forecast.map((d: ForeCastWeather, i) =>
-              <p>{i + 1} - Time Offset: <b>{d.timeOffset}</b> hrs&nbsp;&nbsp;
+              <p key={d.dateStart + i}>{i + 1} - Time Offset: <b>{d.timeOffset}</b> hrs&nbsp;&nbsp;
                 Wind Spd (mph): <b>{d.windSpeedMPH.toFixed(1)}</b>&nbsp;&nbsp;
                 Wind Dir (deg true): <b>{d.windDirDeg}</b></p>
             )
           }
-
         </div>
       </div>
     </div>

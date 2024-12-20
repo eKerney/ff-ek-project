@@ -66,7 +66,7 @@ export const useTransformData = (
             relHumid: weather.relativeHumidity,
             cloudCoverSum: weather.cloudLayers,
             visibilStMi: weather.visibility.distanceSm,
-            windSpeedMPH: (Number(weather.wind.speedKts) * 1.15078),
+            windSpeedMPH: 'wind' in weather ? (Number(weather.wind.speedKts) * 1.15078) : 0,
             windDir: windSecCard,
           },
           forecast: [{ dateStart: 0, timeOffset: 0, windSpeedMPH: 0, windDirDeg: 0 }]
