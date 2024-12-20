@@ -1,4 +1,4 @@
-import DeckGL, { LineLayer, MapView, MapViewState, ScatterplotLayer } from 'deck.gl';
+import DeckGL, { MapViewState, ScatterplotLayer } from 'deck.gl';
 import { Map, FullscreenControl } from 'react-map-gl/maplibre';
 import airportData from "../data/us_airports.json";
 import { Airport } from '../types';

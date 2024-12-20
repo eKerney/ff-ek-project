@@ -1,4 +1,3 @@
-import airportIcon from "../assets/airport.png";
 import { CloudCover, CurrentWeather } from "../types";
 
 export const WeatherCard = ({ styleProps, weather }:
