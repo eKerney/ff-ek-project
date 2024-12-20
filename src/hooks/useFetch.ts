@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FetchTypes, RequestConfig } from "../types";
 import axios from "axios";
 
@@ -12,7 +12,6 @@ export const useFetch = (
   const makeRequest = (config: RequestConfig) => {
     axios.request(config)
       .then((response) => {
-        // console.log('get fetch!', response.data);
         setData(response.data);
       })
       .catch((error) => {
@@ -25,7 +24,6 @@ export const useFetch = (
         console.log(error);
       });
   }
-  // useEffect(() => console.log(data), [data]);
 
   useEffect(() => {
     switch (fetchType) {

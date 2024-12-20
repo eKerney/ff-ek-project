@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
 import { useFetch } from "../hooks/useFetch";
-import { AirportData, CurrentWeather, ForeCastWeather, WeatherData } from "../types";
+import { AirportData, CurrentWeather, WeatherData } from "../types";
 import AirPortCard from "./AirportCard";
 import { useTransformData } from "../hooks/useTransformData";
 import WeatherCard from "./WeatherCard";
@@ -9,6 +8,7 @@ import WeatherForecastCard from "./WeatherForecastCard";
 export const LeftPanel = ({ selectedAirport }:
   { selectedAirport: string }
 ) => {
+  const TOKEN = import.meta.env.VITE_TOKEN
 
   // *** AIRPORT DATA WORKFLOW *** //
   let airportData: AirportData = {
@@ -27,7 +27,7 @@ export const LeftPanel = ({ selectedAirport }:
       url: '/airports/' + selectedAirport,
       headers: {
         'ff-coding-exercise': '1',
-        'Authorization': 'Basic ZmYtaW50ZXJ2aWV3OkAtKkt6VS4qZHRQOWRrb0U3UHJ5TDJvalkhdURWLjZKSkdDOQ=='
+        'Authorization': 'Basic ' + TOKEN,
       }
     },
   );
@@ -61,10 +61,6 @@ export const LeftPanel = ({ selectedAirport }:
   airportData = useTransformData(selectedAirport, "AIRPORT_INFO", airportResponse) as AirportData;
   currentWeatherData = useTransformData(selectedAirport, "AIRPORT_WEATHER", weatherResponse) as WeatherData;
   forecastWeatherData = useTransformData(selectedAirport, "AIRPORT_FORECAST", weatherResponse) as WeatherData;
-
-  // useEffect(() => console.log('weatherResponse', weatherResponse), [weatherResponse]);
-  // useEffect(() => console.log('weatherdata', currentWeatherData.current.cloudCoverSum), [currentWeatherData]);
-  useEffect(() => console.log('forecastWeatherdata', forecastWeatherData.forecast), [forecastWeatherData]);
 
   return (
     <div id="LeftPanel" className="h-screen grid grid-rows-12 justify-left border-1 border-dark-grey-300 bg-elevation-0">

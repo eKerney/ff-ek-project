@@ -55,7 +55,6 @@ export const useTransformData = (
           coords: [res.latitude, res.longitude]
         }
       case "AIRPORT_WEATHER":
-        console.log('weather', res.report);
         const weather = res.report.conditions;
         const windSecCard = 'wind' in weather && 'direction' in weather.wind
           ? getWindDirection(Number(weather.wind.direction))
@@ -73,12 +72,10 @@ export const useTransformData = (
           forecast: [{ dateStart: 0, timeOffset: 0, windSpeedMPH: 0, windDirDeg: 0 }]
         };
       case "AIRPORT_FORECAST":
-        console.log('AIRPORT_FORECAST')
         const forecast = res.report.forecast;
         const dateStartTxt = new Date(forecast.period.dateStart);
         const dateStartNum = Date.parse(forecast.period.dateStart);
         const conditions = forecast.conditions;
-        console.log(dateStartTxt, dateStartNum);
 
         const forecasts: ForeCastWeather[] = conditions.map(d => {
           const period: Forecast = {
