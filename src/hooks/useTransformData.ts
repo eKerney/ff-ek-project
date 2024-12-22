@@ -77,15 +77,17 @@ export const useTransformData = (
         const dateStartNum = Date.parse(forecast.period.dateStart);
         const conditions = forecast.conditions;
 
-        const forecasts: ForeCastWeather[] = conditions.map(d => {
-          const period: Forecast = {
-            dateStart: Date.parse(d.period.dateStart),
-            timeOffset: (Date.parse(d.period.dateStart) - dateStartNum) / (1000 * 60 * 60),
-            windSpeedMPH: (Number(d.wind.speedKts) * 1.15078),
-            windDirDeg: (d.wind.direction),
-          }
-          return period
-        });
+        const forecasts: ForeCastWeather[] = 'wind' in conditions
+          ? conditions.map(d => {
+            const period: Forecast = {
+              dateStart: Date.parse(d.period.dateStart),
+              timeOffset: (Date.parse(d.period.dateStart) - dateStartNum) / (1000 * 60 * 60),
+              windSpeedMPH: (Number(d.wind.speedKts) * 1.15078),
+              windDirDeg: (d.wind.direction),
+            }
+            return period
+          })
+          : [{ dateStart: 0, timeOffset: 0, windSpeedMPH: 0, windDirDeg: 0 }];
         return {
           current: { temperatureF: 0, relHumid: '', cloudCoverSum: [], visibilStMi: 0, windSpeedMPH: 0, windDir: '' },
           forecast: forecasts,

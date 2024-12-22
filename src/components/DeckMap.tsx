@@ -5,6 +5,7 @@ import { Airport } from '../types';
 import { useEffect, useState } from 'react';
 
 export const DeckMap = ({ view_state, selectedAirport }: { view_state: MapViewState, selectedAirport: string }) => {
+  const MAP_KEY = import.meta.env.VITE_MAP_KEY;
 
   const [viewState, setViewState] = useState<MapViewState>({
     longitude: view_state.longitude,
@@ -60,7 +61,7 @@ export const DeckMap = ({ view_state, selectedAirport }: { view_state: MapViewSt
     >
       <Map
         style={{ width: '100vw', height: '100vh' }}
-        mapStyle="https://api.maptiler.com/maps/00553183-d09c-4722-b846-d599c71164d8/style.json?key=0suUkrpdBZITNDvdZoWU"
+        mapStyle={"https://api.maptiler.com/maps/00553183-d09c-4722-b846-d599c71164d8/style.json?key=" + MAP_KEY}
       >
         <FullscreenControl />
       </Map>
