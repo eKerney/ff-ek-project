@@ -51,7 +51,6 @@ export const DeckMap = ({ view_state, selectedAirport }: { view_state: MapViewSt
     ${info.object.url}`;
   };
 
-
   return (
     <DeckGL
       initialViewState={viewState}
