@@ -73,11 +73,11 @@ export const useTransformData = (
         };
       case "AIRPORT_FORECAST":
         const forecast = res.report.forecast;
-        const dateStartTxt = new Date(forecast.period.dateStart);
+        // const dateStartTxt = new Date(forecast.period.dateStart);
         const dateStartNum = Date.parse(forecast.period.dateStart);
         const conditions = forecast.conditions;
 
-        const forecasts: ForeCastWeather[] = 'wind' in conditions
+        const forecasts: ForeCastWeather[] = 'wind' in conditions[0]
           ? conditions.map(d => {
             const period: Forecast = {
               dateStart: Date.parse(d.period.dateStart),
