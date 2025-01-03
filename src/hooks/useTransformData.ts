@@ -1,4 +1,5 @@
-import { AirportData, FetchTypes, Forecast, ForeCastWeather, WeatherData } from "../types";
+import { AirportData, FetchTypes, ForeCastWeather, WeatherData } from "../types";
+import { getWindDirection } from "../utilities/utilityFunctions";
 
 export const useTransformData = (
   selectedAirport: string,
@@ -17,33 +18,6 @@ export const useTransformData = (
       current: { temperatureF: 0, relHumid: '', cloudCoverSum: [], visibilStMi: 0, windSpeedMPH: 0, windDir: '' },
       forecast: [{ dateStart: 0, timeOffset: 0, windSpeedMPH: 0, windDirDeg: 0 }]
     } as WeatherData;
-
-  const getWindDirection = (wind: number): string => {
-    const windDirections = [
-      { direction: "N", min: 348.75, max: 11.25 },
-      { direction: "NNE", min: 11.25, max: 33.75 },
-      { direction: "NE", min: 33.75, max: 56.25 },
-      { direction: "ENE", min: 56.25, max: 78.75 },
-      { direction: "E", min: 78.75, max: 101.25 },
-      { direction: "ESE", min: 101.25, max: 123.75 },
-      { direction: "SE", min: 123.75, max: 146.25 },
-      { direction: "SSE", min: 146.25, max: 168.75 },
-      { direction: "S", min: 168.75, max: 191.25 },
-      { direction: "SSW", min: 191.25, max: 213.75 },
-      { direction: "SW", min: 213.75, max: 236.25 },
-      { direction: "WSW", min: 236.25, max: 258.75 },
-      { direction: "W", min: 258.75, max: 281.25 },
-      { direction: "WNW", min: 281.25, max: 303.75 },
-      { direction: "NW", min: 303.75, max: 326.25 },
-      { direction: "NNW", min: 326.25, max: 348.75 }
-    ];
-
-    const direction = windDirections.find(dir =>
-      (wind >= dir.min && wind < dir.max) ||
-      (dir.min > dir.max && (wind >= dir.min || wind < dir.max))
-    );
-    return direction ? direction.direction : "NO DATA";
-  }
 
   const parseData = (res): AirportData | WeatherData => {
     switch (fetchType) {
@@ -79,7 +53,7 @@ export const useTransformData = (
 
         const forecasts: ForeCastWeather[] = 'wind' in conditions[0]
           ? conditions.map(d => {
-            const period: Forecast = {
+            const period: ForeCastWeather = {
               dateStart: Date.parse(d.period.dateStart),
               timeOffset: (Date.parse(d.period.dateStart) - dateStartNum) / (1000 * 60 * 60),
               windSpeedMPH: (Number(d.wind.speedKts) * 1.15078),
