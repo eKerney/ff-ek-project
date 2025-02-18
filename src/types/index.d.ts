@@ -2,6 +2,8 @@
 /// GENERAL TYPES ///
 /////////////////////
 
+import { components } from "./airport_api";
+
 export interface Headers {
   "ff-coding-exercise": string,
   Authorization?: string,
@@ -15,10 +17,10 @@ export interface RequestConfig {
 };
 
 export interface AirportData {
-  id: string,
-  name: string,
-  runways: string[],
-  coords: number[],
+  id?: string,
+  name?: string,
+  runways: components['schemas']['Runway'][],
+  coords: (number | undefined)[],
 };
 
 export interface CloudCover {

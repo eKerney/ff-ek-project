@@ -1,0 +1,614 @@
+openapi: 3.0.3
+info:
+  title: Airport API
+  version: "1.0.0"
+  description: API returning airport details.
+paths:
+  /airport:
+    get:
+      summary: Get airport details
+      operationId: getAirport
+      responses:
+        '200':
+          description: Successful response with airport details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Airport'
+components:
+  schemas:
+    Airport:
+      type: object
+      properties:
+        siteNumberCode:
+          type: string
+        icao:
+          type: string
+        iata:
+          type: string
+          nullable: true
+        faaCode:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        stateCode:
+          type: string
+        country:
+          type: string
+        countryCode:
+          type: string
+        name:
+          type: string
+        keywordPrefixes:
+          type: array
+          items:
+            type: string
+        artccID:
+          type: string
+        artccName:
+          type: string
+        artccResponsibleID:
+          type: string
+        artccResponsibleName:
+          type: string
+        flightServiceStationID:
+          type: string
+        flightServiceStationName:
+          type: string
+        flightServiceStationPhone:
+          type: string
+        flightServiceStationAlternateID:
+          type: string
+          nullable: true
+        flightServiceStationAlternateName:
+          type: string
+          nullable: true
+        flightServiceStationAlternatePhone:
+          type: string
+          nullable: true
+        flightServiceStationIssuingNotamsID:
+          type: string
+          nullable: true
+        latitude:
+          type: number
+        longitude:
+          type: number
+        airportType:
+          type: string
+        operationalStatus:
+          type: string
+        airportAccess:
+          type: string
+        latitudeSecsNorth:
+          type: number
+        longitudeSecsEast:
+          type: number
+        elevation:
+          type: number
+        magneticVariationWest:
+          type: number
+        trafficPatternAltitudeMsl:
+          type: number
+          nullable: true
+        runways:
+          type: array
+          items:
+            $ref: '#/components/schemas/Runway'
+        frequencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Frequency'
+        remoteFrequencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Frequency'
+        procedures:
+          type: array
+          items:
+            $ref: '#/components/schemas/Procedure'
+        fuelTypes:
+          type: array
+          items:
+            type: string
+        extraServices:
+          type: array
+          items:
+            type: string
+        remarks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Remark'
+        serviceProviders:
+          type: array
+          items:
+            type: string
+        fbos:
+          type: array
+          items:
+            type: string
+        businesses:
+          type: array
+          items:
+            type: string
+        trafficPatternAltitudes:
+          type: array
+          items:
+            type: string
+        sectionalName:
+          type: string
+        managersName:
+          type: string
+          nullable: true
+        managersAddress:
+          type: string
+          nullable: true
+        managersCityStateZip:
+          type: string
+          nullable: true
+        managersPhoneNumber:
+          type: string
+          nullable: true
+        afdFilename:
+          type: string
+        diagramAvailable:
+          type: boolean
+        diagram:
+          type: string
+          nullable: true
+        notamDServiceAvailable:
+          type: boolean
+        towered:
+          type: boolean
+        pdc:
+          type: boolean
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contact'
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attribute'
+        schedule:
+          type: array
+          items:
+            $ref: '#/components/schemas/Schedule'
+        cycle:
+          $ref: '#/components/schemas/Cycle'
+        timezone:
+          $ref: '#/components/schemas/Timezone'
+        source:
+          type: string
+        displayName:
+          type: string
+        latitudeInDegrees:
+          type: number
+        longitudeInDegrees:
+          type: number
+
+    Runway:
+      type: object
+      properties:
+        ident:
+          type: string
+        length:
+          type: number
+        width:
+          type: number
+        surfaceType:
+          type: string
+        surfaceQuality:
+          type: string
+        edgeLightsIntensity:
+          type: string
+        name:
+          type: string
+        trueHeading:
+          type: number
+        magneticHeading:
+          type: number
+        latitudeBase:
+          type: number
+        longitudeBase:
+          type: number
+        approachSlopeSideBase:
+          type: string
+        approachSlopeIndicatorBase:
+          type: string
+        approachLightingSystemBase:
+          type: string
+        rightTrafficBase:
+          type: boolean
+        rightTrafficRecip:
+          type: boolean
+        recipTrueHeading:
+          type: number
+        recipMagneticHeading:
+          type: number
+        recipName:
+          type: string
+        latitudeRecip:
+          type: number
+        longitudeRecip:
+          type: number
+        approachSlopeSideRecip:
+          type: string
+        approachSlopeIndicatorRecip:
+          type: string
+        approachLightingSystemRecip:
+          type: string
+        displacedThresholdBase:
+          type: boolean
+        displacedThresholdRecip:
+          type: boolean
+        gradientBase:
+          type: number
+        gradientRecip:
+          type: number
+        displacedThresholdLengthBase:
+          type: number
+          nullable: true
+        displacedThresholdLengthRecip:
+          type: number
+          nullable: true
+        displacedThresholdLatitudeBase:
+          type: number
+          nullable: true
+        displacedThresholdLatitudeRecip:
+          type: number
+          nullable: true
+        displacedThresholdLongitudeBase:
+          type: number
+          nullable: true
+        displacedThresholdLongitudeRecip:
+          type: number
+          nullable: true
+        elevationRunwayEndBase:
+          type: number
+        elevationRunwayEndRecip:
+          type: number
+        elevationThresholdBase:
+          type: number
+          nullable: true
+        elevationThresholdRecip:
+          type: number
+          nullable: true
+        elevationTouchdownZoneBase:
+          type: number
+        elevationTouchdownZoneRecip:
+          type: number
+        glidePathAngleBase:
+          type: number
+          nullable: true
+        glidePathAngleRecip:
+          type: number
+          nullable: true
+        ldaFtDayBase:
+          type: number
+        ldaFtDayRecip:
+          type: number
+        ldaFtNightBase:
+          type: number
+        ldaFtNightRecip:
+          type: number
+        toraFtDayBase:
+          type: number
+        toraFtDayRecip:
+          type: number
+        toraFtNightBase:
+          type: number
+        toraFtNightRecip:
+          type: number
+        todaFtDayBase:
+          type: number
+        todaFtDayRecip:
+          type: number
+        todaFtNightBase:
+          type: number
+        todaFtNightRecip:
+          type: number
+        asdaFtDayBase:
+          type: number
+        asdaFtDayRecip:
+          type: number
+        asdaFtNightBase:
+          type: number
+        asdaFtNightRecip:
+          type: number
+        overrunFtBase:
+          type: number
+        overrunFtRecip:
+          type: number
+        markingsType:
+          type: string
+          nullable: true
+        markingsCondition:
+          type: string
+          nullable: true
+        attributes:
+          type: object
+          nullable: true
+        edgeLightIntensityKnown:
+          type: boolean
+        edgeLightUserPresentable:
+          type: string
+        approachSlopeIndicatorBaseAvailable:
+          type: boolean
+        approachSlopeIndicatorRecipAvailable:
+          type: boolean
+        approachLightingSystemBaseAvailable:
+          type: boolean
+        approachLightingSystemRecipAvailable:
+          type: boolean
+
+    Frequency:
+      type: object
+      properties:
+        frequency:
+          type: number
+        name:
+          type: string
+        phone:
+          type: string
+          nullable: true
+        sectorDescription:
+          type: string
+          nullable: true
+        altitudeDescription:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        localFrequency:
+          type: boolean
+
+    Procedure:
+      type: object
+      properties:
+        name:
+          type: string
+        filename:
+          type: string
+        source:
+          type: string
+        type:
+          type: string
+        airportIcao:
+          type: string
+        defaultPage:
+          type: integer
+          nullable: true
+        associatedRunwayNames:
+          type: array
+          items:
+            type: string
+        georefPages:
+          type: array
+          items:
+            $ref: '#/components/schemas/GeorefPage'
+        changedThisCycle:
+          type: boolean
+        fileHash:
+          type: string
+          nullable: true
+        pageCount:
+          type: integer
+        dateLabel:
+          type: string
+          nullable: true
+        rotation:
+          type: number
+        lastCycleChanged:
+          type: string
+          nullable: true
+        georefHash:
+          type: string
+          nullable: true
+        procuid:
+          type: string
+          nullable: true
+        cycle:
+          $ref: '#/components/schemas/Cycle'
+        procedureUrl:
+          type: string
+          nullable: true
+        resources:
+          type: object
+        pageRotations:
+          type: object
+        diagram:
+          type: boolean
+        icaocode:
+          type: string
+        iatacode:
+          type: string
+          nullable: true
+        aipcode:
+          type: string
+          nullable: true
+
+    GeorefPage:
+      type: object
+      properties:
+        filename:
+          type: string
+        pageNumber:
+          type: integer
+        coord1Lat:
+          type: number
+        coord1Lon:
+          type: number
+        coord2Lat:
+          type: number
+        coord2Lon:
+          type: number
+        p1PctX:
+          type: number
+        p1PctY:
+          type: number
+        p2PctX:
+          type: number
+        p2PctY:
+          type: number
+        orientation:
+          type: number
+        drawTopPct:
+          type: number
+        drawBottomPct:
+          type: number
+        drawLeftPct:
+          type: number
+        drawRightPct:
+          type: number
+        validWithinX:
+          type: number
+        validWithinY:
+          type: number
+        validWithinRadius:
+          type: number
+        excludedArea:
+          type: string
+          nullable: true
+        empty:
+          type: boolean
+
+    Cycle:
+      type: object
+      properties:
+        version:
+          type: string
+        dateUpdated:
+          type: string
+          format: date-time
+        dateEffective:
+          type: string
+          format: date-time
+        dateExpires:
+          type: string
+          format: date-time
+
+    Timezone:
+      type: object
+      properties:
+        dstOffset:
+          type: number
+        gmtOffset:
+          type: number
+        timezoneId:
+          type: string
+
+    Remark:
+      type: object
+      properties:
+        remarkText:
+          type: string
+
+    Contact:
+      type: object
+      properties:
+        label:
+          type: string
+        name:
+          type: string
+        organization:
+          type: string
+          nullable: true
+        note:
+          type: string
+          nullable: true
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+        phones:
+          type: array
+          items:
+            $ref: '#/components/schemas/Phone'
+
+    Address:
+      type: object
+      properties:
+        label:
+          type: string
+          nullable: true
+        primary:
+          type: boolean
+        rel:
+          type: string
+          nullable: true
+        uri:
+          type: string
+          nullable: true
+        physicalAddress:
+          type: string
+          nullable: true
+        country:
+          type: string
+          nullable: true
+        city:
+          type: string
+          nullable: true
+        state:
+          type: string
+          nullable: true
+        postalCode:
+          type: string
+          nullable: true
+        latitude:
+          type: number
+          nullable: true
+        longitude:
+          type: number
+          nullable: true
+        address:
+          type: array
+          items:
+            type: string
+
+    Phone:
+      type: object
+      properties:
+        label:
+          type: string
+        phoneNumber:
+          type: string
+        primary:
+          type: boolean
+        rel:
+          type: string
+          nullable: true
+        uri:
+          type: string
+          nullable: true
+
+    Attribute:
+      type: object
+      properties:
+        label:
+          type: string
+        value:
+          type: string
+        description:
+          type: string
+          nullable: true
+
+    Schedule:
+      type: object
+      properties:
+        months:
+          type: string
+        days:
+          type: string
+        hours:
+          type: string
+        unattended:
+          type: boolean
+        irregular:
+          type: boolean
+        value:
+          type: string
+          nullable: true
+
