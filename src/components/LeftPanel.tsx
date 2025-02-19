@@ -4,6 +4,7 @@ import AirPortCard from "./AirportCard";
 import { useTransformData } from "../hooks/useTransformData";
 import WeatherCard from "./WeatherCard";
 import WeatherForecastCard from "./WeatherForecastCard";
+import { useEffect } from "react";
 
 export const LeftPanel = ({ selectedAirport }:
   { selectedAirport: string }
@@ -61,6 +62,7 @@ export const LeftPanel = ({ selectedAirport }:
   airportData = useTransformData(selectedAirport, "AIRPORT_INFO", airportResponse) as AirportData;
   currentWeatherData = useTransformData(selectedAirport, "AIRPORT_WEATHER", weatherResponse) as WeatherData;
   forecastWeatherData = useTransformData(selectedAirport, "AIRPORT_FORECAST", weatherResponse) as WeatherData;
+  useEffect(() => console.info(airportData), [airportData]);
 
   return (
     <div id="LeftPanel" className="h-screen grid grid-rows-12 justify-left border-1 border-dark-grey-300 bg-elevation-0">

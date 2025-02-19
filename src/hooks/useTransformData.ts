@@ -1,6 +1,6 @@
 import { AirportData, FetchTypes, ForeCastWeather, WeatherData } from "../types";
 import { getWindDirection } from "../utilities/utilityFunctions";
-import { paths, components } from '../types/airport_api';
+import { components } from '../types/airport_api';
 
 export const useTransformData = (
   selectedAirport: string,
@@ -13,6 +13,7 @@ export const useTransformData = (
       id: '...',
       name: 'select airport',
       runways: [''],
+      runwayGeom: [],
       coords: [0, 0]
     }
     : {
@@ -20,7 +21,7 @@ export const useTransformData = (
       forecast: [{ dateStart: 0, timeOffset: 0, windSpeedMPH: 0, windDirDeg: 0 }]
     } as WeatherData;
 
-  const parseData = (res: components['schemas']['Airport'] | any): AirportData | WeatherData => {
+  const parseData = (res: components['schemas']['Airport']): AirportData | WeatherData => {
     switch (fetchType) {
       case "AIRPORT_INFO":
         console.info(res);
@@ -28,6 +29,7 @@ export const useTransformData = (
           id: res.faaCode,
           name: res.displayName,
           runways: (res.runways ?? []).map((d: components['schemas']['Runway']) => d.ident ?? ""),
+          runwayGeom: (res.runways ?? []).map((d: components['schemas']['Runway']) => [[d.longitudeBase, d.latitudeBase], [d.longitudeRecip, d.latitudeRecip]]),
           coords: [res?.latitude, res?.longitude]
         }
       case "AIRPORT_WEATHER":

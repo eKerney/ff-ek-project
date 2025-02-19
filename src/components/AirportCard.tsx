@@ -1,6 +1,7 @@
 import airportIcon from "../assets/airport.png";
+import { components } from "../types/airport_api";
 export const AirPortCard = ({ styleProps, ID, name, runways, coords }:
-  { styleProps: string, ID: string, name: string, runways: string[], coords: number[] }) => {
+  { styleProps: string, ID: string, name: string, runways: components['schemas']['Runway'][], coords: (number | undefined)[] }) => {
 
   return (
     <div className={`stats shadow ${styleProps}`}>

@@ -16,10 +16,12 @@ export interface RequestConfig {
   headers: Headers,
 };
 
+
 export interface AirportData {
   id?: string,
   name?: string,
-  runways: components['schemas']['Runway'][],
+  runways: components['schemas']['Runway'][] | never[],
+  runwayGeom: (number | undefined)[][][],
   coords: (number | undefined)[],
 };
 
