@@ -16,6 +16,7 @@ export const LeftPanel = ({ selectedAirport }:
     id: '...',
     name: 'NAME',
     runways: ['1', '2'],
+    runwayGeom: [],
     coords: [0, 0]
   }
   // fetch airport info 

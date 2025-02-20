@@ -1,8 +1,10 @@
 /////////////////////
 /// GENERAL TYPES ///
-/////////////////////
 
+
+import { Layer } from "deck.gl";
 import { components } from "./airport_api";
+import { LayerTypes } from "./enums";
 
 export interface Headers {
   "ff-coding-exercise": string,
@@ -15,6 +17,8 @@ export interface RequestConfig {
   url: string,
   headers: Headers,
 };
+
+export type RunwayGeom = (number | undefined)[][][];
 
 
 export interface AirportData {
@@ -45,7 +49,7 @@ export interface ForeCastWeather {
   dateStart: number,
   timeOffset: number,
   windSpeedMPH: number,
-  windDirDeg: numer,
+  windDirDeg: number,
 };
 
 export interface WeatherData {
@@ -70,6 +74,15 @@ export interface Airport {
   type: string | null,
 };
 
-export type FetchTypes = "AIRPORT_INFO" | "AIRPORT_WEATHER" | "AIRPORT_FORECAST";
+export type FetchTypes = "AIRPORT_INFO" | "AIRPORT_WEATHER" | "AIRPORT_FORECAST" | "MAP_RUNWAY" | "";
 
 
+export interface DeckLineLayer extends Layer {
+  kind: LayerTypes.LineLayer,
+};
+
+export interface DeckPolyLayer extends Layer {
+  kind: LayerTypes.PolyLayer,
+};
+
+export type DeckLayers = DeckLineLayer | DeckPolyLayer;
