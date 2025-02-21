@@ -2,7 +2,7 @@
 /// GENERAL TYPES ///
 
 
-import { Layer } from "deck.gl";
+import { Deck, Layer, LayerProps, LineLayer, PolygonLayer } from "deck.gl";
 import { components } from "./airport_api";
 import { LayerTypes } from "./enums";
 
@@ -17,8 +17,6 @@ export interface RequestConfig {
   url: string,
   headers: Headers,
 };
-
-export type RunwayGeom = (number | undefined)[][][];
 
 
 export interface AirportData {
@@ -74,15 +72,60 @@ export interface Airport {
   type: string | null,
 };
 
+export type RunwayGeom = Position[][];
+
+export type RunwayGeomArr = Position[];
+
+
 export type FetchTypes = "AIRPORT_INFO" | "AIRPORT_WEATHER" | "AIRPORT_FORECAST" | "MAP_RUNWAY" | "";
 
+export type DeckColor = [number, number, number, number?];
 
-export interface DeckLineLayer extends Layer {
-  kind: LayerTypes.LineLayer,
+export type DeckValue = number | string;
+
+export type DeckData = PointData | LineData;
+
+export type Position = [number, number, number?]
+
+interface PointData {
+  position: Position;
+  color?: DeckColor;
+  value?: DeckValue;
+}
+
+interface LineData {
+  source: PointData;
+  target: PointData;
+  color: DeckColor;
+  value?: DeckValue;
+}
+
+export interface BaseLayer {
+  id: string;
+  data: DeckData;
+  pickable: boolean;
+  autoHighlight: boolean;
+  highlightColor: DeckColor;
+  opacity: number;
+  stroked: boolean;
+}
+
+type Accessor<T, R> = R | ((d: T) => R);
+
+export interface DeckPointLayer extends BaseLayer {
+  kind: LayerTypes.PointLayer
+  getPosition: Accessor<PointData, Position>;
+  getLineColor: Accessor<PointData, DeckColor>;
+  getFillColor: Accessor<PointData, DeckColor>;
+  getLineWidth: Accessor<PointData, number>;
 };
 
-export interface DeckPolyLayer extends Layer {
-  kind: LayerTypes.PolyLayer,
+export interface DeckLineLayer extends BaseLayer {
+  kind: LayerTypes.LineLayer
+  getColor: Accessor<PointData, DeckColor>;
+  getSourcePosition: Accessor<PointData, Position>;
+  getTargetPosition: Accessor<PointData, Position>;
 };
 
-export type DeckLayers = DeckLineLayer | DeckPolyLayer;
+export type DeckLayerTypes = DeckPointLayer | DeckLineLayer;
+

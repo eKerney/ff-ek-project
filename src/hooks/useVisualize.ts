@@ -1,37 +1,26 @@
-import { Layer } from "deck.gl";
-import { RunwayGeom, FetchTypes, DeckLayers, DeckLineLayer, DeckPolyLayer } from "../types";
+import { LineLayer, ScatterplotLayer } from "deck.gl";
+import { RunwayGeom, FetchTypes, DeckLayerTypes, RunwayGeomArr } from "../types";
 import { LayerTypes } from "../types/enums";
 
-export const useVisualize = (vizType: FetchTypes, data: RunwayGeom): DeckLayers => {
+export const useVisualize = (vizType: FetchTypes, data: RunwayGeomArr): ScatterplotLayer | LineLayer => {
 
 
-  const getMapLayer = <T extends DeckLayers>(layerKind: T, data: RunwayGeom): T => {
+  const getMapLayer = <T extends DeckLayerTypes>(layerKind: T, data: RunwayGeomArr): T => {
     let layer: T = { ...layerKind };
 
-    // const layer = new LineLayer<BartSegment>({
-    //   id: 'LineLayer',
-    //   data: 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/bart-segments.json',
-    //   
-    //   getColor: (d: BartSegment) => [Math.sqrt(d.inbound + d.outbound), 140, 0],
-    //   getSourcePosition: (d: BartSegment) => d.from.coordinates,
-    //   getTargetPosition: (d: BartSegment) => d.to.coordinates,
-    //   getWidth: 12,
-    //   pickable: true
-    // });
-
-    switch (layerKind.kind) {
+    switch (layer.kind) {
       case LayerTypes.LineLayer:
-        layer.props.data = data;
-        layer. = [];
+        layer.getColor = [50, 100, 150, 100];
+        layer.getSourcePosition = data.map((d: RunwayGeom) => [d[0][0], d[0][1]])
+
 
         return layer
-      case LayerTypes.PolyLayer:
-        return layer;
       default:
         throw new Error('Unsupported Layer Type')
     }
 
   }
+
 
   switch (vizType) {
     case 'MAP_RUNWAY':
