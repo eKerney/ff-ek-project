@@ -1,13 +1,18 @@
 import { useFetch } from "../hooks/useFetch";
-import { AirportData, CurrentWeather, WeatherData } from "../types";
+import { AirportData, CurrentWeather, RunwayGeomArr, WeatherData } from "../types";
 import AirPortCard from "./AirportCard";
 import { useTransformData } from "../hooks/useTransformData";
 import WeatherCard from "./WeatherCard";
 import WeatherForecastCard from "./WeatherForecastCard";
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo } from "react";
+import { useVisualize } from "../hooks/useVisualize";
+import { LineLayer } from "deck.gl";
 
-export const LeftPanel = ({ selectedAirport }:
-  { selectedAirport: string }
+export const LeftPanel = ({ selectedAirport, callback }:
+  {
+    selectedAirport: string,
+    callback: Dispatch<SetStateAction<LineLayer>>
+  }
 ) => {
   const TOKEN = import.meta.env.VITE_TOKEN
 
@@ -16,8 +21,9 @@ export const LeftPanel = ({ selectedAirport }:
     id: '...',
     name: 'NAME',
     runways: ['1', '2'],
-    runwayGeom: [],
-    coords: [0, 0]
+    runwayGeomArr: [],
+    coords: [0, 0],
+    trigger: false
   }
   // fetch airport info 
   const airportResponse = useFetch(
@@ -38,6 +44,7 @@ export const LeftPanel = ({ selectedAirport }:
   let currentWeatherData: WeatherData = {
     current: {} as CurrentWeather,
     forecast: [],
+    trigger: false
   }
   // fetch airport weather info
   const weatherResponse = useFetch(
@@ -57,13 +64,22 @@ export const LeftPanel = ({ selectedAirport }:
   let forecastWeatherData: WeatherData = {
     current: {} as CurrentWeather,
     forecast: [],
+    trigger: false,
   }
   // No new fetch required, data availavailable in weatherResponse
 
   airportData = useTransformData(selectedAirport, "AIRPORT_INFO", airportResponse) as AirportData;
   currentWeatherData = useTransformData(selectedAirport, "AIRPORT_WEATHER", weatherResponse) as WeatherData;
   forecastWeatherData = useTransformData(selectedAirport, "AIRPORT_FORECAST", weatherResponse) as WeatherData;
-  useEffect(() => console.info(airportData), [airportData]);
+
+  useEffect(() => console.info('airportData'), [airportData]);
+  useEffect(() => console.info('currentWeatherData'), [currentWeatherData]);
+  useEffect(() => console.info('forecastWeatherData'), [forecastWeatherData]);
+
+  const runwayLayer = useVisualize('MAP_RUNWAY', airportData.runwayGeomArr, forecastWeatherData.trigger, selectedAirport);
+
+  useEffect(() => console.info('runway changed', runwayLayer?.props?.data), [runwayLayer?.props?.id]);
+  useEffect(() => callback(runwayLayer), [runwayLayer?.props?.id]);
 
   return (
     <div id="LeftPanel" className="h-screen grid grid-rows-12 justify-left border-1 border-dark-grey-300 bg-elevation-0">

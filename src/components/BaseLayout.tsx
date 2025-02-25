@@ -3,11 +3,13 @@ import { GenericSelect } from "./GenericSelect";
 import LeftPanel from "./LeftPanel";
 import airportList from "../data/us_airports.json";
 import { useEffect, useState } from "react";
-import { MapViewState } from "deck.gl";
+import { LineLayer, MapViewState } from "deck.gl";
 
 export const BaseLayout = () => {
   const [selectedAirport, setSelectedAirport] = useState<string>('')
+  const [selectedRunway, setSelectedRunway] = useState<LineLayer>({} as LineLayer);
   const IDs: string[] = airportList.map(d => d.code);
+  // useEffect(() => console.info('selectedAirport', selectedAirport), [selectedAirport])
 
   const INITIAL_VIEW_STATE: MapViewState = {
     longitude: -110,
@@ -27,6 +29,7 @@ export const BaseLayout = () => {
         <div className="border-2 border-dark-grey-300 bg-elevation-0 col-span-4 z-30 " >
           <LeftPanel
             selectedAirport={selectedAirport}
+            callback={setSelectedRunway}
           />
         </div>
         <div className="border-2 border-dark-grey-300 bg-elevation-0 col-span-8" >

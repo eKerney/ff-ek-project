@@ -23,8 +23,9 @@ export interface AirportData {
   id?: string,
   name?: string,
   runways: components['schemas']['Runway'][] | never[],
-  runwayGeom: (number | undefined)[][][],
+  runwayGeomArr: RunwayGeomArr,
   coords: (number | undefined)[],
+  trigger: boolean
 };
 
 export interface CloudCover {
@@ -53,6 +54,7 @@ export interface ForeCastWeather {
 export interface WeatherData {
   current: CurrentWeather
   forecast: ForeCastWeather[],
+  trigger: boolean,
 };
 
 export interface Airport {
@@ -72,10 +74,9 @@ export interface Airport {
   type: string | null,
 };
 
-export type RunwayGeom = Position[][];
+export type RunwayGeom = [Position, Position];
 
-export type RunwayGeomArr = Position[];
-
+export type RunwayGeomArr = RunwayGeom[];
 
 export type FetchTypes = "AIRPORT_INFO" | "AIRPORT_WEATHER" | "AIRPORT_FORECAST" | "MAP_RUNWAY" | "";
 
@@ -83,20 +84,20 @@ export type DeckColor = [number, number, number, number?];
 
 export type DeckValue = number | string;
 
-export type DeckData = PointData | LineData;
+export type DeckData = Array<PointData | LineData>;
 
 export type Position = [number, number, number?]
 
-interface PointData {
+export interface PointData {
   position: Position;
   color?: DeckColor;
   value?: DeckValue;
 }
 
-interface LineData {
-  source: PointData;
-  target: PointData;
-  color: DeckColor;
+export interface LineData {
+  source: Position;
+  target: Position;
+  color?: DeckColor;
   value?: DeckValue;
 }
 

@@ -10,6 +10,7 @@ export const useFetch = (
   const [data, setData] = useState({});
 
   const makeRequest = (config: RequestConfig) => {
+    console.log('makeRequest useFetch()');
     axios.request(config as any)
       .then((response) => {
         setData(response.data);

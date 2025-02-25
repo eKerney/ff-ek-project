@@ -1,6 +1,7 @@
 import { AirportData, FetchTypes, ForeCastWeather, WeatherData } from "../types";
 import { getWindDirection } from "../utilities/utilityFunctions";
 import { components } from '../types/airport_api';
+import { useEffect, useState } from "react";
 
 export const useTransformData = (
   selectedAirport: string,
@@ -8,37 +9,44 @@ export const useTransformData = (
   responseData: any,
 ): AirportData | WeatherData => {
 
-  let transformData = fetchType === 'AIRPORT_INFO'
+  const initTransformData = fetchType === 'AIRPORT_INFO'
     ? {
       id: '...',
       name: 'select airport',
       runways: [''],
       runwayGeom: [],
-      coords: [0, 0]
+      coords: [0, 0],
+      trigger: false
     }
     : {
       current: { temperatureF: 0, relHumid: '', cloudCoverSum: [], visibilStMi: 0, windSpeedMPH: 0, windDir: '' },
       forecast: [{ dateStart: 0, timeOffset: 0, windSpeedMPH: 0, windDirDeg: 0 }]
     } as WeatherData;
+  const [transformData, setTransformData] = useState(initTransformData);
+
 
   const parseData = (res: components['schemas']['Airport']): AirportData | WeatherData => {
     switch (fetchType) {
       case "AIRPORT_INFO":
-        console.info(res);
-        return {
+        console.info('AIRPORT_INFO')
+
+        setTransformData({
           id: res.faaCode,
           name: res.displayName,
           runways: (res.runways ?? []).map((d: components['schemas']['Runway']) => d.ident ?? ""),
-          runwayGeom: (res.runways ?? []).map((d: components['schemas']['Runway']) => [[d.longitudeBase, d.latitudeBase], [d.longitudeRecip, d.latitudeRecip]]),
-          coords: [res?.latitude, res?.longitude]
-        }
+          runwayGeomArr: (res.runways ?? []).map((d: components['schemas']['Runway']) => [[d.longitudeBase, d.latitudeBase], [d.longitudeRecip, d.latitudeRecip]]),
+          coords: [res?.latitude, res?.longitude],
+          trigger: true
+        });
+        break;
       case "AIRPORT_WEATHER":
+        console.info('AIRPORT_WEATHER')
         const weather = res.report.conditions;
         const windSecCard = 'wind' in weather && 'direction' in weather.wind
           ? getWindDirection(Number(weather.wind.direction))
           : 'NO DATA';
 
-        return {
+        setTransformData({
           current: {
             temperatureF: Number(weather.tempC) * (9 / 5) + 32,
             relHumid: weather.relativeHumidity,
@@ -47,11 +55,14 @@ export const useTransformData = (
             windSpeedMPH: 'wind' in weather ? (Number(weather.wind.speedKts) * 1.15078) : 0,
             windDir: windSecCard,
           },
-          forecast: [{ dateStart: 0, timeOffset: 0, windSpeedMPH: 0, windDirDeg: 0 }]
-        };
+          forecast: [{ dateStart: 0, timeOffset: 0, windSpeedMPH: 0, windDirDeg: 0 }],
+          trigger: true
+        });
+        break;
+
       case "AIRPORT_FORECAST":
+        console.info('AIRPORT_FORECAST')
         const forecast = res.report.forecast;
-        // const dateStartTxt = new Date(forecast.period.dateStart);
         const dateStartNum = Date.parse(forecast.period.dateStart);
         const conditions = forecast.conditions;
 
@@ -66,34 +77,39 @@ export const useTransformData = (
             return period
           })
           : [{ dateStart: 0, timeOffset: 0, windSpeedMPH: 0, windDirDeg: 0 }];
-        return {
+        setTransformData({
           current: { temperatureF: 0, relHumid: '', cloudCoverSum: [], visibilStMi: 0, windSpeedMPH: 0, windDir: '' },
           forecast: forecasts,
-        }
+          trigger: true
+        });
+        break;
       default:
         return transformData as AirportData
     }
   }
 
-  switch (fetchType) {
-    case "AIRPORT_INFO":
-      transformData = 'displayName' in responseData
-        ? parseData(responseData)
-        : transformData;
-      break;
-    case "AIRPORT_WEATHER":
-      transformData = 'report' in responseData && 'conditions' in responseData.report
-        ? parseData(responseData)
-        : transformData;
-      break;
-    case "AIRPORT_FORECAST":
-      transformData = 'report' in responseData && 'forecast' in responseData.report
-        ? parseData(responseData)
-        : transformData;
-      break;
-    default:
-      console.error('INVALID FETCHTYPE', fetchType)
-  }
+  useEffect(() => {
+    switch (fetchType) {
+      case "AIRPORT_INFO":
+        'displayName' in responseData && selectedAirport
+          ? parseData(responseData)
+          : transformData;
+        break;
+      case "AIRPORT_WEATHER":
+        'report' in responseData && 'conditions' in responseData.report && selectedAirport
+          ? parseData(responseData)
+          : transformData;
+        break;
+      case "AIRPORT_FORECAST":
+        'report' in responseData && 'forecast' in responseData.report && selectedAirport
+          ? parseData(responseData)
+          : transformData;
+        break;
+      default:
+        console.error('INVALID FETCHTYPE', fetchType)
+    }
+  }, [responseData]);
+
   return transformData;
 
 }

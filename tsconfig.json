@@ -10,6 +10,7 @@
   ],
   "include": [
     "src",
-    "./setupTest.ts"
+    "./setupTest.ts",
+    "types"
   ]
 }
